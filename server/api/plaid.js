@@ -52,6 +52,17 @@ router.post('/transactions/get', async (req, res, next) => {
             console.log('ERROR WHILE FETCHING TRANSACTIONS!', err)
         } else {
             console.log('SUCCESS! HERE ARE THE TRANSACTIONS: ', result.transactions)
+            let transactions = result.transactions.map(transaction => {
+                let stub = {
+                    date: transaction.date,
+                    account: transaction.account_id,
+                    description: transaction.name,
+                    amount: transaction.amount,
+                    category: null
+                }
+                return stub
+            })
+            res.send(transactions)
         }
     })
 })

@@ -10,6 +10,8 @@ const Transaction = require('./transaction')
  */
 
 User.hasMany(Account)
+Transaction.belongsTo(User)
+// Transaction.belongsTo(Category)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
