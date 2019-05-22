@@ -6,4 +6,4 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
-export {LinkAccount} from './link-account'
+export {default as LinkAccount} from './link-account'

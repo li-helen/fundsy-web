@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const db = require('../index')
+const db = require('../db')
 
 const Account = db.define('account', {
     accessToken: {

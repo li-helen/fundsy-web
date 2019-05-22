@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 import PlaidLink from 'react-plaid-link'
+import { connect } from 'react-redux';
 
-export class LinkAccount extends React.Component {
+class LinkAccount extends React.Component {
     handleOnSuccess =  async (token, metadata) => {
-        console.log('TOKEN FROM ONSUCCESSHANDLER: ', token)
-        const data = await axios.post('/api/plaid/get_access_token', {publicToken: token})
-        console.log('RESPONSE FROM GET_ACCESS_TOKEN!', data)
+        await axios.post('/api/plaid/get_access_token', {publicToken: token, userId: this.props.userId})
+        await axios.post('/api/plaid/transactions/get', {userId: this.props.userId})
+
+
     }
 
     handleOnExit = () => {
@@ -27,3 +29,11 @@ export class LinkAccount extends React.Component {
         )
     }
 }
+
+const mapState = state => {
+    return {
+        userId: state.user.id
+    }
+}
+
+export default connect(mapState)(LinkAccount)
