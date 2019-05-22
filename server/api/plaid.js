@@ -54,6 +54,7 @@ router.post('/transactions/get', async (req, res, next) => {
             console.log('SUCCESS! HERE ARE THE TRANSACTIONS: ', result.transactions)
             let transactions = result.transactions.map(transaction => {
                 let stub = {
+                    id: transaction.transaction_id,
                     date: transaction.date,
                     account: transaction.account_id,
                     description: transaction.name,

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../history'
 
 /**
  * ACTION TYPES
@@ -26,6 +27,7 @@ import axios from 'axios'
     try {
         const {data} = await axios.post('/api/plaid/transactions/get', {userId})
         dispatch(getTransactions(data))
+        history.push('/transactions')
     } catch(err) {
         console.log(err)
     }
