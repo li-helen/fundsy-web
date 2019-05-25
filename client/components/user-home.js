@@ -1,34 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { Button } from 'react-toolbox/lib/button';
+
+const DummyComponent = () => {
+  return (
+    <Button label="LOOK AT ME!"/>
+  )
+}
+
+export default DummyComponent
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {email} = props
+// export const UserHome = props => {
+//   const {email} = props
 
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-    </div>
-  )
-}
+//   return (
+//     <div>
+//       <h3>Welcome, {email}</h3>
+//     </div>
+//   )
+// }
 
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    email: state.user.email
-  }
-}
+// /**
+//  * CONTAINER
+//  */
+// const mapState = state => {
+//   return {
+//     email: state.user.email
+//   }
+// }
 
-export default connect(mapState)(UserHome)
+// export default connect(mapState)(UserHome)
 
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
-}
+// /**
+//  * PROP TYPES
+//  */
+// UserHome.propTypes = {
+//   email: PropTypes.string
+// }
+
