@@ -37,7 +37,6 @@ class CategorySelector extends React.Component {
     }
 
     handleChange = (value) => {
-        console.log('VALUE CHANGED! VALUE IS NOW: ', value)
         this.setState({selectedCategory: value})
         this.setState({dropdownKey: _.uniqueId()})
     }

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const plaid = require('plaid')
 const {PLAID_CLIENT_ID, PLAID_SECRET} = require('../../secrets')
-const {Account, User} = require('../db/models')
+const {Account, User, Transaction} = require('../db/models')
 
 //initializing Plaid client
 const PLAID_PUBLIC_KEY = '5242cceff2322ca8098710f72d6825'
@@ -38,6 +38,11 @@ router.post('/get_access_token', (req, res, next) => {
 })
 
 router.post('/transactions/get', async (req, res, next) => {
+    let user = await User.findOne({
+        where: {
+            id: req.body.userId
+        }
+    })
     const account = await Account.findOne({
         where: {
             userId: req.body.userId
@@ -45,23 +50,25 @@ router.post('/transactions/get', async (req, res, next) => {
     })
     console.log('account info in transactions/get!', account, 'and then account access token: ', account.accessToken)
     client.getTransactions(account.accessToken, '2019-01-01', '2019-05-01', {
-        count: 10,
+        count: 8,
         offset: 0
     }, (err, result) => {
         if(err) {
             console.log('ERROR WHILE FETCHING TRANSACTIONS!', err)
         } else {
             console.log('SUCCESS! HERE ARE THE TRANSACTIONS: ', result.transactions)
-            let transactions = result.transactions.map(transaction => {
-                let stub = {
-                    id: transaction.transaction_id,
+            let transactions = result.transactions.map(async (transaction) => {
+                const newTransaction = await Transaction.create({
                     date: transaction.date,
-                    account: transaction.account_id,
                     description: transaction.name,
                     amount: transaction.amount,
                     category: null
-                }
-                return stub
+                })
+
+                user.addTransaction(newTransaction)
+                newTransaction.setAccount(account)
+                return newTransaction
+                
             })
             res.send(transactions)
         }

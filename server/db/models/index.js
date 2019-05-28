@@ -10,7 +10,8 @@ const Transaction = require('./transaction')
  */
 
 User.hasMany(Account)
-Transaction.belongsTo(User)
+User.hasMany(Transaction)
+Transaction.belongsTo(Account)
 // Transaction.belongsTo(Category)
 
 /**

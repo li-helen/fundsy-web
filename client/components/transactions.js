@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
-import CategorySelector from './category-selector'
+import axios from 'axios'
 import { connect } from 'react-redux';
-
+import CategorySelector from './category-selector'
+import { fetchTransactions } from '../store'
+import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 
 // //for most up-to-date docs on tables:
 // //https://github.com/react-toolbox/react-toolbox/tree/dev/components/table#data-table
 
 class Transactions extends Component {
+
+  componentDidMount() {
+    this.props.getTransactions(this.props.userId)
+  }
 
   render () {
     return (
@@ -20,13 +25,13 @@ class Transactions extends Component {
             <TableCell>Category</TableCell>
           </TableHead>
 
-        {this.props.transactions.map(transaction => {
+        {this.props.transactions.length && this.props.transactions.map(transaction => {
             return <TableRow key={transaction.id}>
-                <TableCell>{transaction.date}</TableCell>
-                <TableCell>{transaction.account}</TableCell>
-                <TableCell>{transaction.description}</TableCell>
-                <TableCell>{transaction.amount}</TableCell>
-                <TableCell>{<CategorySelector />}</TableCell>
+                <TableCell><div>{transaction.date}</div></TableCell>
+                <TableCell><div>{transaction.account}</div></TableCell>
+                <TableCell><div>{transaction.description}</div></TableCell>
+                <TableCell><div>{transaction.amount}</div></TableCell>
+                <TableCell><div>{<CategorySelector />}</div></TableCell>
             </TableRow>
         })}
       </Table>
@@ -37,9 +42,16 @@ class Transactions extends Component {
 
 const mapState = state => {
     return {
-        transactions: state.transactions
+      userId: state.user.id,
+      transactions: state.transactions
     }
 }
 
-export default connect(mapState)(Transactions)
+const mapDispatch = dispatch => {
+  return {
+      getTransactions: (userId) => dispatch(fetchTransactions(userId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(Transactions)
 

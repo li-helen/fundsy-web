@@ -25,7 +25,8 @@ import history from '../history'
 
  export const fetchTransactions = (userId) => async dispatch => {
     try {
-        const {data} = await axios.post('/api/plaid/transactions/get', {userId})
+        // await axios.post('/api/plaid/transactions/get', {userId})
+        const { data } = await axios.post('/api/transactions', {userId})
         dispatch(getTransactions(data))
         history.push('/transactions')
     } catch(err) {

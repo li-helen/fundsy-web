@@ -7,8 +7,7 @@ import { fetchTransactions } from '../store'
 class LinkAccount extends React.Component {
     handleOnSuccess =  async (token, metadata) => {
         await axios.post('/api/plaid/get_access_token', {publicToken: token, userId: this.props.userId})
-        // await axios.post('/api/plaid/transactions/get', {userId: this.props.userId})
-        this.props.getTransactions(this.props.userId)
+        await axios.post('/api/plaid/transactions/get', {userId: this.props.userId})
 
     }
 
