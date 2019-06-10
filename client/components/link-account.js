@@ -8,7 +8,6 @@ class LinkAccount extends React.Component {
     handleOnSuccess =  async (token, metadata) => {
         await axios.post('/api/plaid/get_access_token', {publicToken: token, userId: this.props.userId})
         await axios.post('/api/plaid/transactions/get', {userId: this.props.userId})
-
     }
 
     handleOnExit = () => {
@@ -35,10 +34,6 @@ const mapState = state => {
         userId: state.user.id
     }
 }
-const mapDispatch = dispatch => {
-    return {
-        getTransactions: (userId) => dispatch(fetchTransactions(userId))
-    }
-}
 
-export default connect(mapState, mapDispatch)(LinkAccount)
+
+export default connect(mapState)(LinkAccount)

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import { connect } from 'react-redux';
-import CategorySelector from './category-selector'
-import { fetchTransactions } from '../store'
+import {CategorySelector, TransactionsHeader} from './index'
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 
 // //for most up-to-date docs on tables:
@@ -10,13 +8,12 @@ import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 
 class Transactions extends Component {
 
-  componentDidMount() {
-    this.props.getTransactions(this.props.userId)
-  }
-
   render () {
+    const {transactions} = this.props
     return (
-      <Table style={{ marginTop: 10 }} selectable={false}>
+      <div>
+        <TransactionsHeader />
+        <Table style={{ marginTop: 10 }} selectable={false}>
           <TableHead>
             <TableCell>Date</TableCell>
             <TableCell>Account</TableCell>
@@ -25,16 +22,18 @@ class Transactions extends Component {
             <TableCell>Category</TableCell>
           </TableHead>
 
-        {this.props.transactions.length && this.props.transactions.map(transaction => {
-            return <TableRow key={transaction.id}>
-                <TableCell><div>{transaction.date}</div></TableCell>
-                <TableCell><div>{transaction.account}</div></TableCell>
-                <TableCell><div>{transaction.description}</div></TableCell>
-                <TableCell><div>{transaction.amount}</div></TableCell>
-                <TableCell><div>{<CategorySelector />}</div></TableCell>
-            </TableRow>
-        })}
-      </Table>
+          {transactions.length && transactions.map(transaction => {
+              return <TableRow key={transaction.id}>
+                  <TableCell><div>{transaction.date}</div></TableCell>
+                  <TableCell><div>{transaction.account}</div></TableCell>
+                  <TableCell><div>{transaction.description}</div></TableCell>
+                  <TableCell><div>{transaction.amount}</div></TableCell>
+                  <TableCell><div>{<CategorySelector />}</div></TableCell>
+              </TableRow>
+          })}
+        </Table>
+      </div>
+      
     );
   }
 }
@@ -43,15 +42,8 @@ class Transactions extends Component {
 const mapState = state => {
     return {
       userId: state.user.id,
-      transactions: state.transactions
     }
 }
 
-const mapDispatch = dispatch => {
-  return {
-      getTransactions: (userId) => dispatch(fetchTransactions(userId))
-  }
-}
-
-export default connect(mapState, mapDispatch)(Transactions)
+export default connect(mapState)(Transactions)
 
