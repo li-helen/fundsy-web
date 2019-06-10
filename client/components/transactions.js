@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {CategorySelector, TransactionsHeader} from './index'
+import { CategorySelector } from '../components'
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 
 // //for most up-to-date docs on tables:
@@ -12,7 +12,6 @@ class Transactions extends Component {
     const {transactions} = this.props
     return (
       <div>
-        <TransactionsHeader />
         <Table style={{ marginTop: 10 }} selectable={false}>
           <TableHead>
             <TableCell>Date</TableCell>
@@ -41,7 +40,7 @@ class Transactions extends Component {
 
 const mapState = state => {
     return {
-      userId: state.user.id,
+      userId: state.user.id
     }
 }
 
