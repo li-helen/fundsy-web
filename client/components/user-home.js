@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Layout} from 'react-toolbox/lib/layout'
-import {UncategorizedTransactions} from '../components'
+import {Transactions} from '../components'
 
 
 /**
@@ -15,7 +15,7 @@ export class UserHome extends React.Component {
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <UncategorizedTransactions />
+        <Transactions transactions={this.props.uncategorized} />
       </div>
     )
   }
@@ -27,6 +27,7 @@ export class UserHome extends React.Component {
 const mapState = state => {
   return {
     email: state.user.email,
+    uncategorized: state.transactions.uncategorized
   }
 }
 
