@@ -34,4 +34,23 @@ router.post('/uncategorized', async (req, res, next) => {
     }
 })
 
+router.post('/update-category', async (req, res, next) => {
+    try {
+        const transaction = await Transaction.findOne({
+            where: {
+                id: req.body.transactionId
+            }
+        })
+
+        await transaction.update({
+            category: req.body.category
+        })
+
+        res.end()
+
+    } catch(err) {
+        next(err)
+    }
+})
+
 module.exports = router

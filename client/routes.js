@@ -12,6 +12,12 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.userId !== this.props.userId) {
+      this.props.fetchCategorized(this.props.userId)
+      this.props.fetchUncategorized(this.props.userId)
+    }
+  }
 
   render() {
     const {isLoggedIn} = this.props
@@ -24,9 +30,9 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/" component={UserHome} />
             <Route path="/link-account" component={LinkAccount} />
             <Route path="/expenses" component={CategorizedTransactions} />
+            <Route path="/" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -44,14 +50,18 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
+    userId: state.user.id,
   }
 }
+
 
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    fetchCategorized: (userId) => dispatch(fetchCategorized(userId)),
+    fetchUncategorized: (userId) => dispatch(fetchUncategorized(userId))
   }
 }
 
