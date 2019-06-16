@@ -48,6 +48,8 @@ router.post('/transactions/get', async (req, res, next) => {
             id: req.body.userId
         }
     })
+    //need to later think about how to access the correct access token for users
+    //who may have more than one account
     const account = await Account.findOne({
         where: {
             userId: req.body.userId
