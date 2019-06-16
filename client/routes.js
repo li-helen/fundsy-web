@@ -13,7 +13,10 @@ class Routes extends Component {
     this.props.loadInitialData()
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.userId !== this.props.userId) {
+    console.log('ROUTES COMPONENT UPDATED')
+    console.log('this.props: ', this.props)
+    console.log('prevProps: ', prevProps)
+    if (!prevProps.userId && prevProps.userId !== this.props.userId) {
       this.props.fetchCategorized(this.props.userId)
       this.props.fetchUncategorized(this.props.userId)
     }
