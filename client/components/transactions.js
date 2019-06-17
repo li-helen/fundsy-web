@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CategorySelector } from '../components'
+import {FontIcon} from 'react-toolbox/lib/font_icon';
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 import { Button } from 'react-toolbox/lib/button'
 
@@ -17,7 +18,7 @@ class Transactions extends Component {
     const {transactions} = this.props
     return (
       <div>
-        <Table style={{ marginTop: 10 }} selectable={false}>
+        <Table style={{ margin: 50 }} selectable={false}>
           <TableHead>
             <TableCell>Date</TableCell>
             <TableCell>Account</TableCell>
@@ -37,6 +38,9 @@ class Transactions extends Component {
               </TableRow>
           })}
         </Table>
+        <FontIcon>arrow_back</FontIcon>
+        <FontIcon>arrow_forward</FontIcon>
+        
       </div>
       
     );
