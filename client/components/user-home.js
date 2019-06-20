@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Layout} from 'react-toolbox/lib/layout'
-import {Transactions} from '../components'
+import {UncategorizedTransactions} from '../components'
 
 
 /**
@@ -15,7 +15,7 @@ class UserHome extends React.Component {
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <Transactions />
+        <UncategorizedTransactions />
       </div>
     )
   }

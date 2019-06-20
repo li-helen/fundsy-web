@@ -5,6 +5,7 @@ const Sequelize = require('sequelize')
 const PER_PAGE = 10
 
 router.post('/categorized', async (req, res, next) => {
+    const page = req.query.page
     try {
         const transactions = await Transaction.findAll({
             where: {
@@ -13,6 +14,9 @@ router.post('/categorized', async (req, res, next) => {
                     [Sequelize.Op.ne]: null
                 }
             },
+            limit: 10,
+            offset: page * PER_PAGE,
+            order: [['date', 'DESC']]
            
         })
 
@@ -24,7 +28,6 @@ router.post('/categorized', async (req, res, next) => {
 
 router.post('/uncategorized', async (req, res, next) => {
     const page = req.query.page
-    console.log('INSIDE EXPRESS ROUTE, PAGE IS: ', page)
     try {
         const transactions = await Transaction.findAll({
             where: {

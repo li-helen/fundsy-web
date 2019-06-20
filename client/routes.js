@@ -17,7 +17,7 @@ class Routes extends Component {
     console.log('this.props: ', this.props)
     console.log('prevProps: ', prevProps)
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
-      this.props.fetchCategorized(this.props.userId)
+      this.props.fetchCategorized(this.props.userId, 0)
       this.props.fetchUncategorized(this.props.userId, 0)
     }
   }
@@ -63,7 +63,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    fetchCategorized: (userId) => dispatch(fetchCategorized(userId)),
+    fetchCategorized: (userId, page) => dispatch(fetchCategorized(userId,page)),
     fetchUncategorized: (userId, page) => dispatch(fetchUncategorized(userId, page))
   }
 }

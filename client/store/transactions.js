@@ -39,9 +39,9 @@ import history from '../history'
 //     }
 //  }
 
- export const fetchCategorized = (userId) => async dispatch => {
+ export const fetchCategorized = (userId, page) => async dispatch => {
      try {
-         const { data } = await axios.post('/api/transactions/categorized', {userId})
+         const { data } = await axios.post(`/api/transactions/categorized/?page=${page}`, {userId})
          dispatch(getCategorized(data))
 
      } catch(err) {

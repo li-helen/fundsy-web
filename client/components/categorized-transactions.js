@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {TransactionsHeader, Transactions} from '../components'
+import { fetchCategorized } from '../store'
 
 class CategorizedTransactions extends Component {
     render() {
        return (
         <div>
             <TransactionsHeader />
-            <Transactions transactions={this.props.categorizedTransactions}/>
+            <Transactions
+                userId={this.props.userId}
+                transactions={this.props.categorizedTransactions}
+                fetchTransactions={this.props.fetchCategorized}
+                />
         </div>
        )
     }
@@ -20,4 +25,10 @@ const mapState = state => {
     }
 }
 
-export default connect(mapState)(CategorizedTransactions)
+const mapDispatch = dispatch => {
+    return {
+        fetchCategorized: (userId, page) => dispatch(fetchCategorized(userId, page))
+    }
+}
+
+export default connect(mapState, mapDispatch)(CategorizedTransactions)
