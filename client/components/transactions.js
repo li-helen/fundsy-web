@@ -34,7 +34,8 @@ class Transactions extends Component {
   lastPage = () => {
     console.log('PREV PAGE')
     this.setState((state) => {
-      return {page: state.page - 1}
+      if (state.pages === 0) return state
+      else return ({page: state.page - 1})
     })
     this.props.fetchUncategorized(this.props.userId, this.state.page)
   }
