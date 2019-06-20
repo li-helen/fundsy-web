@@ -4,19 +4,45 @@ import { CategorySelector } from '../components'
 import {FontIcon} from 'react-toolbox/lib/font_icon';
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 import { Button } from 'react-toolbox/lib/button'
+import { fetchUncategorized } from '../store'
 
 // //for most up-to-date docs on tables:
 // //https://github.com/react-toolbox/react-toolbox/tree/dev/components/table#data-table
 
 class Transactions extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      page: 0
+    }
+  }
 
   setCategory() {
     console.log('SETTING CATEGORY')
   }
 
+  nextPage = async () => {
+    console.log('NEXT PAGE CLICKED')
+    await this.setState((state) => {
+      return {page: state.page + 1}
+    })
+    console.log('PAGE IS NOW: ', this.state.page)
+    this.props.fetchUncategorized(this.props.userId, this.state.page)
+  }
+
+  lastPage = () => {
+    console.log('PREV PAGE')
+    this.setState((state) => {
+      return {page: state.page - 1}
+    })
+    this.props.fetchUncategorized(this.props.userId, this.state.page)
+  }
+
   render () {
     const {transactions} = this.props
-    return (
+    console.log('STATE IS: ', this.state)
+    return ( 
       <div>
         <Table style={{ margin: 50 }} selectable={false}>
           <TableHead>
@@ -38,8 +64,9 @@ class Transactions extends Component {
               </TableRow>
           })}
         </Table>
-        <FontIcon>arrow_back</FontIcon>
-        <FontIcon>arrow_forward</FontIcon>
+
+        <FontIcon onClick={this.lastPage}>arrow_back</FontIcon>
+        <FontIcon onClick={this.nextPage}>arrow_forward</FontIcon>
         
       </div>
       
@@ -50,9 +77,16 @@ class Transactions extends Component {
 
 const mapState = state => {
     return {
-      userId: state.user.id
+      userId: state.user.id,
+      transactions: state.transactions.uncategorized
     }
 }
 
-export default connect(mapState)(Transactions)
+const mapDispatch = dispatch => {
+  return {
+    fetchUncategorized: (userId, page) => dispatch(fetchUncategorized(userId, page))
+  }
+}
+
+export default connect(mapState, mapDispatch)(Transactions)
 

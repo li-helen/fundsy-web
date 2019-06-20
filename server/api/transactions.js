@@ -23,7 +23,8 @@ router.post('/categorized', async (req, res, next) => {
 })
 
 router.post('/uncategorized', async (req, res, next) => {
-    const page = 0
+    const page = req.query.page
+    console.log('INSIDE EXPRESS ROUTE, PAGE IS: ', page)
     try {
         const transactions = await Transaction.findAll({
             where: {

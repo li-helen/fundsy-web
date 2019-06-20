@@ -49,9 +49,9 @@ import history from '../history'
      }
  }
 
- export const fetchUncategorized = (userId) => async dispatch => {
+ export const fetchUncategorized = (userId, page) => async dispatch => {
     try {
-        const { data } = await axios.post('/api/transactions/uncategorized', {userId})
+        const { data } = await axios.post(`/api/transactions/uncategorized/?page=${page}`, {userId})
         dispatch(getUncategorized(data))
 
     } catch(err) {

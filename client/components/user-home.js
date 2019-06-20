@@ -9,13 +9,13 @@ import {Transactions} from '../components'
  * COMPONENT
  */
 
-export class UserHome extends React.Component {
+class UserHome extends React.Component {
   render() {
     const {email} = this.props
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <Transactions transactions={this.props.uncategorized} />
+        <Transactions />
       </div>
     )
   }
@@ -27,7 +27,6 @@ export class UserHome extends React.Component {
 const mapState = state => {
   return {
     email: state.user.email,
-    uncategorized: state.transactions.uncategorized
   }
 }
 
