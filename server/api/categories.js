@@ -4,19 +4,47 @@ module.exports = router
 
 
 router.post('/', async (req, res, next) => {
-    const {userId, name} = req.body
-    const newCategory = await Category.create({name})
-    const user = await User.findOne({where: {
-        id: userId
-    }})
-    await newCategory.setUser(user)
-    res.send(newCategory)
+    try{
+        const {userId, name} = req.body
+        const newCat = await Category.create({name})
+        const user = await User.findOne({
+            where: {
+                id: userId
+        }})
+        newCat.setUser(user)
+        res.send(newCat)
+    } catch (err) {
+        next(err)
+    }
+  
 })
 
-router.put('/', (req, res, next) => {
-
+router.put('/', async (req, res, next) => {
+    try {
+        const {id, name} = req.body
+        const existingCat = await Category.findOne({
+            where: {
+                id
+            }
+        })
+        existingCat.update({name})
+        res.send(existingCat)
+    } catch (err) {
+        next(err)
+    }
 })
 
-router.delete('/', (req, res, next) => {
+router.delete('/', async (req, res, next) => {
+    try {
+        const catToDelete = await Category.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
 
+        catToDelete.destroy()
+        res.end()
+    } catch (err) {
+        next(err)
+    }
 })
