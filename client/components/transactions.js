@@ -16,8 +16,9 @@ export default class Transactions extends Component {
         }
     }
 
-    setCategory() {
+    setCategory(transactionId) {
         console.log('SETTING CATEGORY')
+        console.log('transactionId is: ', transactionId)
       }
     
       nextPage = async () => {
@@ -59,7 +60,7 @@ export default class Transactions extends Component {
                       <TableCell><div>{transaction.description}</div></TableCell>
                       <TableCell><div>{transaction.amount}</div></TableCell>
                       <TableCell><div>{<CategorySelector />}</div></TableCell>
-                      <TableCell><div><Button onClick={(transactionId) => this.setCategory(transactionId)}>Set category</Button></div></TableCell>
+                      <TableCell><div><Button onClick={() => this.setCategory(transaction.id)}>Set category</Button></div></TableCell>
                   </TableRow>
               })}
             </Table>
