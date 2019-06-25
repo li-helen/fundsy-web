@@ -60,23 +60,23 @@ export const fetchUncategorized = (userId, page) => async dispatch => {
   }
 }
 
-export const addCategory = (transactionId) => async dispatch => {
-    try {
-        await axios.put('/api/transactions/update-category', {transactionId, category: 'FOOD'})
-        dispatch(categorize(transactionId, 'FOOD'))
-    } catch (err) {
-        console.log(err)
-    }
-}
+// export const addCategory = (transactionId) => async dispatch => {
+//     try {
+//         await axios.put('/api/transactions/update-category', {transactionId, category: 'FOOD'})
+//         dispatch(categorize(transactionId, 'FOOD'))
+//     } catch (err) {
+//         console.log(err)
+//     }
+// }
 
-export const changeCategory = (transactionId) => async dispatch => {
-    try {
-        await axios.put('/api/transactions/update-category', {transactionId, category: 'TRANSPORTATION'})
-        dispatch(updateCategory(transactionId, 'TRANSPORTATION'))
-    } catch (err) {
-        console.log(err)
-    }
-}
+// export const changeCategory = (transactionId) => async dispatch => {
+//     try {
+//         await axios.put('/api/transactions/update-category', {transactionId, category: 'TRANSPORTATION'})
+//         dispatch(updateCategory(transactionId, 'TRANSPORTATION'))
+//     } catch (err) {
+//         console.log(err)
+//     }
+// }
 
 export default function(state = initialTransactions, action) {
   switch (action.type) {
@@ -86,23 +86,23 @@ export default function(state = initialTransactions, action) {
     case GET_UNCATEGORIZED: {
       return {...state, uncategorized: action.transactions}
     }
-    case ADD_CATEGORY: {
-        return {...state, 
-                uncategorized: state.transactions.uncategorized.filter(transaction => {
-                    return transaction.id !== action.transactionId
-                }),
-                categorized: state.transactions.categorized.map(transaction => {
-                  if (transaction.id === action.transactionId) {
-                    transaction.category = action.category
-                  }
+    // case ADD_CATEGORY: {
+    //     return {...state, 
+    //             uncategorized: state.transactions.uncategorized.filter(transaction => {
+    //                 return transaction.id !== action.transactionId
+    //             }),
+    //             categorized: state.transactions.categorized.map(transaction => {
+    //               if (transaction.id === action.transactionId) {
+    //                 transaction.category = action.category
+    //               }
 
-                  return transaction
-                })
-            }
-    }
-    case UPDATE_CATEGORY: {
-        return {...state}
-    }
+    //               return transaction
+    //             })
+    //         }
+    // }
+    // case UPDATE_CATEGORY: {
+    //     return {...state}
+    // }
     default:
       return state
   }

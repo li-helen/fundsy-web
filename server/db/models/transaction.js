@@ -17,9 +17,6 @@ const Transaction = db.define('transaction', {
     description: {
         type: Sequelize.TEXT
     },
-    category: {
-        type: Sequelize.STRING
-    }
 })
 
 module.exports = Transaction

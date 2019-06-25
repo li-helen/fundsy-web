@@ -69,7 +69,6 @@ router.post('/transactions/get', async (req, res, next) => {
                     date: transaction.date,
                     description: transaction.name,
                     amount: transaction.amount,
-                    category: null
                 })
 
                 user.addTransaction(newTransaction)

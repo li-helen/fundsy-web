@@ -10,7 +10,7 @@ router.post('/categorized', async (req, res, next) => {
         const transactions = await Transaction.findAll({
             where: {
                 userId: req.body.userId,
-                category: {
+                categoryId: {
                     [Sequelize.Op.ne]: null
                 }
             },
@@ -32,7 +32,7 @@ router.post('/uncategorized', async (req, res, next) => {
         const transactions = await Transaction.findAll({
             where: {
                 userId: req.body.userId,
-                category: null
+                categoryId: null
             },
             limit: 10,
             offset: page * PER_PAGE,
