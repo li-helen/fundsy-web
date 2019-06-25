@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, LinkAccount, CategorizedTransactions} from './components'
-import {me, fetchCategorized, fetchUncategorized} from './store'
+import {Login, Signup, UserHome, LinkAccount, CategorizedTransactions, SetCategories} from './components'
+import {me, fetchCategorized, fetchUncategorized, fetchCategories} from './store'
 
 /**
  * COMPONENT
@@ -19,6 +19,7 @@ class Routes extends Component {
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
       this.props.fetchCategorized(this.props.userId, 0)
       this.props.fetchUncategorized(this.props.userId, 0)
+      this.props.fetchCategories(this.props.userId)
     }
   }
 
@@ -35,6 +36,7 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/link-account" component={LinkAccount} />
             <Route path="/expenses" component={CategorizedTransactions} />
+            <Route path="/set-categories" component={SetCategories} />
             <Route path="/" component={UserHome} />
           </Switch>
         )}
@@ -64,7 +66,8 @@ const mapDispatch = dispatch => {
       dispatch(me())
     },
     fetchCategorized: (userId, page) => dispatch(fetchCategorized(userId,page)),
-    fetchUncategorized: (userId, page) => dispatch(fetchUncategorized(userId, page))
+    fetchUncategorized: (userId, page) => dispatch(fetchUncategorized(userId, page)),
+    fetchCategories: (userId) => dispatch(fetchCategories(userId))
   }
 }
 

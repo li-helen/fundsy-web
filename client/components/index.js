@@ -12,3 +12,4 @@ export {default as UncategorizedTransactions} from './uncategorized-transactions
 export {default as CategorySelector} from './category-selector'
 export {default as CategorizedTransactions} from './categorized-transactions'
 export {default as Transactions} from './transactions'
+export {default as SetCategories} from './set-categories'
