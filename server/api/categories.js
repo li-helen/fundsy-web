@@ -16,7 +16,7 @@ router.post('/get-categories', async (req, res, next) => {
     }
 })
 
-router.post('/add-categories', async (req, res, next) => {
+router.post('/add-category', async (req, res, next) => {
     try {
         const {userId, name} = req.body
         const newCat = await Category.create({name})
