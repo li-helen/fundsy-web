@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, LinkAccount, CategorizedTransactions, SetCategories} from './components'
-import {me, fetchCategorized, fetchUncategorized, fetchCategories} from './store'
+import {me, fetchTransactions, fetchCategories} from './store'
 
 /**
  * COMPONENT
@@ -17,8 +17,7 @@ class Routes extends Component {
     console.log('this.props: ', this.props)
     console.log('prevProps: ', prevProps)
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
-      this.props.fetchCategorized(this.props.userId, 0)
-      this.props.fetchUncategorized(this.props.userId, 0)
+      this.props.fetchTransactions(this.props.userId, 0)
       this.props.fetchCategories(this.props.userId)
     }
   }
@@ -65,8 +64,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    fetchCategorized: (userId, page) => dispatch(fetchCategorized(userId,page)),
-    fetchUncategorized: (userId, page) => dispatch(fetchUncategorized(userId, page)),
+    fetchTransactions: (userId, page) => dispatch(fetchTransactions(userId, page)),
     fetchCategories: (userId) => dispatch(fetchCategories(userId))
   }
 }

@@ -5,7 +5,7 @@ const Sequelize = require('sequelize')
 const PER_PAGE = 10
 
 router.post('/', async (req, res, next) => {
-  const page = req.query.page || 0
+  const page = req.query.page
   try {
     const transactions = await Promise.all([
       Transaction.findAll({
