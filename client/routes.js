@@ -13,9 +13,6 @@ class Routes extends Component {
     this.props.loadInitialData()
   }
   componentDidUpdate(prevProps) {
-    console.log('ROUTES COMPONENT UPDATED')
-    console.log('this.props: ', this.props)
-    console.log('prevProps: ', prevProps)
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
       this.props.fetchTransactions(this.props.userId, 0)
       this.props.fetchCategories(this.props.userId)

@@ -11,7 +11,6 @@ import {Transactions} from '../components'
 
 class UserHome extends React.Component {
   render() {
-    console.log('expected transactions: ', this.props.transactions)
     const {email} = this.props
     return (
       <div>

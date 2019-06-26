@@ -41,7 +41,6 @@ export default class Transactions extends Component {
 
       render() {
         const {transactions} = this.props
-        console.log('STATE IS: ', this.state)
         return ( 
           <div>
             <Table style={{ margin: 50 }} selectable={false}>
