@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Layout} from 'react-toolbox/lib/layout'
-import {UncategorizedTransactions} from '../components'
+import {Transactions} from '../components'
 
 
 /**
@@ -11,11 +11,12 @@ import {UncategorizedTransactions} from '../components'
 
 class UserHome extends React.Component {
   render() {
+    console.log('expected transactions: ', this.props.transactions)
     const {email} = this.props
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <UncategorizedTransactions />
+        <Transactions transactions={this.props.transactions}/>
       </div>
     )
   }
@@ -27,6 +28,7 @@ class UserHome extends React.Component {
 const mapState = state => {
   return {
     email: state.user.email,
+    transactions: state.transactions.filter(transaction => transaction.categoryId === null)
   }
 }
 
@@ -37,6 +39,6 @@ export default connect(mapState)(UserHome)
 //  * PROP TYPES
 //  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  email: PropTypes.string,
 }
 
