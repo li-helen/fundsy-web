@@ -29,7 +29,9 @@ router.post('/', async (req, res, next) => {
         offset: page * PER_PAGE,
         order: [['date', 'DESC']]
       })
-    ])
+    ]).then(([categorized, uncategorized]) => {
+        res.send(categorized.concat(uncategorized))
+    })
 
     res.send(transactions)
   } catch (err) {
