@@ -11,8 +11,8 @@ class Expenses extends React.Component {
   render() {
     return (
       <div>
-          <TransactionsHeader />
-        <Transactions transactions={this.props.transactions}/>
+        <TransactionsHeader />
+        <Transactions transactions={this.props.transactions} categorized={true} />
       </div>
     )
   }

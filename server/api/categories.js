@@ -18,8 +18,8 @@ router.post('/get-categories', async (req, res, next) => {
 
 router.post('/add-category', async (req, res, next) => {
     try {
-        const {userId, name} = req.body
-        const newCat = await Category.create({name})
+        const {userId, label} = req.body
+        const newCat = await Category.create({label})
         const user = await User.findOne({
             where: {
                 id: userId
@@ -34,13 +34,13 @@ router.post('/add-category', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     try {
-        const {id, name} = req.body
+        const {id, label} = req.body
         const existingCat = await Category.findOne({
             where: {
                 id
             }
         })
-        existingCat.update({name})
+        existingCat.update({label})
         res.send(existingCat)
     } catch (err) {
         next(err)

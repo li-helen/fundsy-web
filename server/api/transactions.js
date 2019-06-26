@@ -39,7 +39,9 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.post('/update-category', async (req, res, next) => {
+router.put('/update-category', async (req, res, next) => {
+  console.log('transactionId', req.body.transactionId)
+  console.log('CATEGORYID: ', req.body.categoryId)
   try {
     const transaction = await Transaction.findOne({
       where: {
@@ -48,8 +50,9 @@ router.post('/update-category', async (req, res, next) => {
     })
 
     await transaction.update({
-      category: req.body.category
+      categoryId: req.body.categoryId
     })
+    console.log('transaction is now: ', transaction)
 
     res.end()
   } catch (err) {

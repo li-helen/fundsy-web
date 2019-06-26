@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CategorySelector } from '.'
 import {FontIcon} from 'react-toolbox/lib/font_icon';
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
-import { Button } from 'react-toolbox/lib/button'
+// import { Button } from 'react-toolbox/lib/button'
 
 // //for most up-to-date docs on tables:
 // //https://github.com/react-toolbox/react-toolbox/tree/dev/components/table#data-table
@@ -16,10 +16,10 @@ export default class Transactions extends Component {
         }
     }
 
-    setCategory(transactionId) {
-        console.log('SETTING CATEGORY')
-        console.log('transactionId is: ', transactionId)
-      }
+    // setCategory(transactionId) {
+    //     console.log('SETTING CATEGORY')
+    //     console.log('transactionId is: ', transactionId)
+    //   }
     
       nextPage = async () => {
         console.log('NEXT PAGE CLICKED')
@@ -58,8 +58,12 @@ export default class Transactions extends Component {
                       <TableCell><div>{transaction.account}</div></TableCell>
                       <TableCell><div>{transaction.description}</div></TableCell>
                       <TableCell><div>{transaction.amount}</div></TableCell>
-                      <TableCell><div>{<CategorySelector />}</div></TableCell>
-                      <TableCell><div><Button onClick={() => this.setCategory(transaction.id)}>Set category</Button></div></TableCell>
+                      <TableCell><div>{<CategorySelector 
+                                        transactionId={transaction.id}
+                                        categorized={this.props.categorized}
+                                        page={this.state.page}
+                                        />}</div></TableCell>
+                      {/* <TableCell><div><Button onClick={() => this.setCategory(transaction.id)}>Set category</Button></div></TableCell> */}
                   </TableRow>
               })}
             </Table>

@@ -32,7 +32,10 @@ const initialCategories = []
  export default function (state = initialCategories, action) {
      switch(action.type) {
         case GET_CATEGORIES: {
-            return action.categories
+            return action.categories.map(cat => {
+                cat.value = cat.id
+                return cat
+            })
         }
         default:
             return state
