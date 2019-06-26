@@ -53,7 +53,7 @@ export default function(state = initialTransactions, action) {
       return action.transactions
     }
     case UPDATE_CATEGORY: {
-      return action.transactions.map(transaction => {
+      return state.map(transaction => {
         if (transaction.id === action.transactionId) transaction.categoryId = action.categoryId
         return transaction
       })
