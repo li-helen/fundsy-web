@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { CategorySelector } from '.'
+import { connect } from 'react-redux'
+import { CategorySelector } from '../components'
+import {fetchTransactions} from '../store'
 import {FontIcon} from 'react-toolbox/lib/font_icon';
 import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 // import { Button } from 'react-toolbox/lib/button'
@@ -7,7 +9,7 @@ import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 // //for most up-to-date docs on tables:
 // //https://github.com/react-toolbox/react-toolbox/tree/dev/components/table#data-table
 
-export default class Transactions extends Component {
+class Transactions extends Component {
     constructor() {
         super()
 
@@ -15,32 +17,33 @@ export default class Transactions extends Component {
             page: 0
         }
     }
-
-    // setCategory(transactionId) {
-    //     console.log('SETTING CATEGORY')
-    //     console.log('transactionId is: ', transactionId)
-    //   }
+    componentDidMount(){
+      console.log('TRANSACTIONS MOUNTED')
+    }
     
-      nextPage = async () => {
-        console.log('NEXT PAGE CLICKED')
-        await this.setState((state) => {
+      nextPage = () => {
+        console.log('NEXT PAGE')
+        this.props.fetchTransactions(this.props.userId, this.state.page + 1)
+        this.setState((state) => {
           return {page: state.page + 1}
         })
-        console.log('PAGE IS NOW: ', this.state.page)
-        this.props.fetchTransactions(this.props.userId, this.state.page)
       }
     
       lastPage = () => {
         console.log('PREV PAGE')
-        this.setState((state) => {
-          if (state.pages === 0) return state
-          else return ({page: state.page - 1})
-        })
-        this.props.fetchTransactions(this.props.userId, this.state.page)
+        if (this.state.page > 0) {
+          this.props.fetchTransactions(this.props.userId, this.state.page - 1)
+          this.setState((state) => {
+            return {page: state.page - 1}
+          })
+        }
+            
+        
       }
 
       render() {
-        const {transactions} = this.props
+        console.log('TRANSACTIONS RENDERING, LOOKING AT PAGE: ', this.state.page)
+        const {transactions, userId, categorized} = this.props
         return ( 
           <div>
             <Table style={{ margin: 50 }} selectable={false}>
@@ -60,10 +63,10 @@ export default class Transactions extends Component {
                       <TableCell><div>{transaction.amount}</div></TableCell>
                       <TableCell><div>{<CategorySelector 
                                         transactionId={transaction.id}
-                                        categorized={this.props.categorized}
+                                        categorized={categorized}
+                                        userId={userId}
                                         page={this.state.page}
                                         />}</div></TableCell>
-                      {/* <TableCell><div><Button onClick={() => this.setCategory(transaction.id)}>Set category</Button></div></TableCell> */}
                   </TableRow>
               })}
             </Table>
@@ -76,3 +79,17 @@ export default class Transactions extends Component {
         );
       }
 }
+
+const mapState = state => {
+  return {
+    userId: state.user.id
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    fetchTransactions: (userId, page) => dispatch(fetchTransactions(userId, page))
+  }
+}
+
+export default connect(mapState, mapDispatch)(Transactions)

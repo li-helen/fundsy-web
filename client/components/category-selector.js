@@ -21,7 +21,7 @@ class CategorySelector extends React.Component {
   }
 
   render() {
-    const {transactionId, categorized, page} = this.props
+    const {transactionId, categorized, userId, page} = this.props
     const {selectedCategory} = this.state
     return (
       <div>
@@ -35,7 +35,7 @@ class CategorySelector extends React.Component {
         />
         <Button
           onClick={() =>
-            this.props.setCategory(transactionId, selectedCategory, categorized, this.props.userId, page)}
+            this.props.setCategory(transactionId, selectedCategory, categorized, userId, page)}
         >
           Set category
         </Button>
@@ -46,7 +46,6 @@ class CategorySelector extends React.Component {
 
 const mapState = state => {
   return {
-    userId: state.user.id,
     categories: state.categories
   }
 }
