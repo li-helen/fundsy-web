@@ -12,17 +12,11 @@ import { Table, TableHead, TableRow, TableCell } from 'react-toolbox/lib/table';
 class Transactions extends Component {
     constructor() {
         super()
-
         this.state = {
             page: 0
         }
     }
-    componentDidMount(){
-      console.log('TRANSACTIONS MOUNTED')
-    }
-    
       nextPage = () => {
-        console.log('NEXT PAGE')
         this.props.fetchTransactions(this.props.userId, this.state.page + 1)
         this.setState((state) => {
           return {page: state.page + 1}
@@ -30,19 +24,15 @@ class Transactions extends Component {
       }
     
       lastPage = () => {
-        console.log('PREV PAGE')
         if (this.state.page > 0) {
           this.props.fetchTransactions(this.props.userId, this.state.page - 1)
           this.setState((state) => {
             return {page: state.page - 1}
           })
         }
-            
-        
       }
 
       render() {
-        console.log('TRANSACTIONS RENDERING, LOOKING AT PAGE: ', this.state.page)
         const {transactions, userId, categorized} = this.props
         return ( 
           <div>
@@ -63,6 +53,7 @@ class Transactions extends Component {
                       <TableCell><div>{transaction.amount}</div></TableCell>
                       <TableCell><div>{<CategorySelector 
                                         transactionId={transaction.id}
+                                        categoryId={transaction.categoryId}
                                         categorized={categorized}
                                         userId={userId}
                                         page={this.state.page}

@@ -21,13 +21,20 @@ class CategorySelector extends React.Component {
   }
 
   render() {
+    console.log('this.props.categoryId: ', this.props.categoryId)
     const {transactionId, categorized, userId, page} = this.props
     const {selectedCategory} = this.state
     return (
       <div>
         <Dropdown
           key={this.state.dropdownKey}
-          label="Assign a category"
+          label={
+            this.props.categoryId !== null
+              ? this.props.categories.filter(
+                  cat => cat.id === this.props.categoryId
+                )[0].label
+              : 'Assign a category'
+          }
           auto={false}
           source={this.props.categories}
           onChange={this.handleChange}
@@ -35,7 +42,14 @@ class CategorySelector extends React.Component {
         />
         <Button
           onClick={() =>
-            this.props.setCategory(transactionId, selectedCategory, categorized, userId, page)}
+            this.props.setCategory(
+              transactionId,
+              selectedCategory,
+              categorized,
+              userId,
+              page
+            )
+          }
         >
           Set category
         </Button>
@@ -53,7 +67,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     setCategory: (transactionId, categoryId, categorized, userId, page) =>
-      dispatch(setCategory(transactionId, categoryId, categorized, userId, page))
+      dispatch(
+        setCategory(transactionId, categoryId, categorized, userId, page)
+      )
   }
 }
 
