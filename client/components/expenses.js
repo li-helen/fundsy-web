@@ -11,7 +11,6 @@ class Expenses extends React.Component {
     return (
       <div>
         <SpendOverTime
-          transactions={[{x: 2, y: 6}, {x: 6, y: 10}]}
           categories={this.props.categories}
         />
         <TransactionsHeader />

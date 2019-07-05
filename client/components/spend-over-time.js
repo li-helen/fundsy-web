@@ -1,6 +1,6 @@
 import React from 'react'
 import Checkbox from 'react-toolbox/lib/checkbox'
-import {VictoryChart, VictoryLine, VictoryContainer} from 'victory'
+import {VictoryContainer, VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 import axios from 'axios'
 
 export default class SpendOverTime extends React.Component {
@@ -78,6 +78,7 @@ export default class SpendOverTime extends React.Component {
 
   render() {
     const {data} = this.state
+    console.log('DATA: ', data)
     return (
       <div>
         {Object.keys(data).length &&

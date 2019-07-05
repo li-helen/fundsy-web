@@ -72,7 +72,7 @@ router.post('/spend-history', async (req, res, next) => {
       where: {
         categoryId: req.body.categoryId,
         date: {
-          [Sequelize.Op.gte]: moment('01-01-2019', 'MM-DD-YYYY')
+          [Sequelize.Op.gte]: moment().subtract(6, 'months')
         }
       }
     })
