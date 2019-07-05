@@ -56,14 +56,13 @@ router.post('/transactions/get', async (req, res, next) => {
         }
     })
     console.log('account info in transactions/get!', account)
-    client.getTransactions(account.accessToken, '2019-01-01', `${year}-${month}-${day}`, {
+    client.getTransactions(account.accessToken, '2018-01-01', `${year}-${month}-${day}`, {
         // count: 8,
         // offset: 0
     }, (err, result) => {
         if(err) {
             console.log('ERROR WHILE FETCHING TRANSACTIONS!', err)
         } else {
-            console.log('SUCCESS! HERE ARE THE TRANSACTIONS: ', result.transactions)
             let transactions = result.transactions.map(async (transaction) => {
                 const newTransaction = await Transaction.create({
                     date: transaction.date,

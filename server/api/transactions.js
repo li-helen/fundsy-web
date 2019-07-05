@@ -1,14 +1,17 @@
 const router = require('express').Router()
 const {Transaction} = require('../db/models')
 const Sequelize = require('sequelize')
+const moment = require('moment')
 
 const PER_PAGE = 10
 
 router.post('/', async (req, res, next) => {
   const page = req.query.page
+
   try {
-    await Promise.all([
-      Transaction.findAll({
+    let transactions
+    if (req.body.categorized) {
+      transactions = await Transaction.findAll({
         where: {
           userId: req.body.userId,
           categoryId: {
@@ -18,9 +21,9 @@ router.post('/', async (req, res, next) => {
         limit: 10,
         offset: page * PER_PAGE,
         order: [['date', 'DESC']]
-      }),
-
-      Transaction.findAll({
+      })
+    } else {
+      transactions = await Transaction.findAll({
         where: {
           userId: req.body.userId,
           categoryId: null
@@ -29,9 +32,51 @@ router.post('/', async (req, res, next) => {
         offset: page * PER_PAGE,
         order: [['date', 'DESC']]
       })
-    ]).then(([categorized, uncategorized]) => {
-        res.send(categorized.concat(uncategorized))
+    }
+
+    res.send(transactions)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// router.post('/spend-history', async (req, res, next) => {
+//   try {
+//     const categories = req.body.categories
+//     const allTransactions = await Promise.all(
+//       categories.map(cat =>
+//         Transaction.findAll({
+//           where: {
+//             categoryId: cat.id,
+//             date: {
+//               [Sequelize.Op.gte]: moment('01-01-2019', 'MM-DD-YYYY')
+//             }
+//           }
+//         })
+//       )
+//     )
+//     res.send(
+//       allTransactions.reduce((accum, transactionsByCat, idx) => {
+//         accum[categories[idx].id] = transactionsByCat
+//         return accum
+//       }, {})
+//     )
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
+router.post('/spend-history', async (req, res, next) => {
+  try {
+    const allTransactions = await Transaction.findAll({
+      where: {
+        categoryId: req.body.categoryId,
+        date: {
+          [Sequelize.Op.gte]: moment('01-01-2019', 'MM-DD-YYYY')
+        }
+      }
     })
+    res.send(allTransactions)
   } catch (err) {
     next(err)
   }
@@ -48,7 +93,6 @@ router.put('/update-category', async (req, res, next) => {
     await transaction.update({
       categoryId: req.body.categoryId
     })
-    console.log('transaction is now: ', transaction)
 
     res.end()
   } catch (err) {

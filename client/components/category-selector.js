@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import {setCategory} from '../store'
 import Dropdown from 'react-toolbox/lib/dropdown'
 import {Button} from 'react-toolbox/lib/button'
 
@@ -21,38 +20,39 @@ class CategorySelector extends React.Component {
   }
 
   render() {
-    console.log('this.props.categoryId: ', this.props.categoryId)
-    const {transactionId, categorized, userId, page} = this.props
+    const {
+      transactionId,
+      categories,
+      categoryId
+    } = this.props
     const {selectedCategory} = this.state
     return (
       <div>
+        {categories.length &&
+        <div>
         <Dropdown
           key={this.state.dropdownKey}
           label={
-            this.props.categoryId !== null
-              ? this.props.categories.filter(
-                  cat => cat.id === this.props.categoryId
-                )[0].label
+            categoryId !== null
+              ? categories.filter(cat => cat.id === categoryId)[0].label
               : 'Assign a category'
           }
           auto={false}
-          source={this.props.categories}
+          source={categories}
           onChange={this.handleChange}
-          value={this.state.selectedCategory}
+          value={selectedCategory}
         />
         <Button
           onClick={() =>
             this.props.setCategory(
               transactionId,
               selectedCategory,
-              categorized,
-              userId,
-              page
             )
           }
         >
           Set category
         </Button>
+        </div>}
       </div>
     )
   }
@@ -64,13 +64,4 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    setCategory: (transactionId, categoryId, categorized, userId, page) =>
-      dispatch(
-        setCategory(transactionId, categoryId, categorized, userId, page)
-      )
-  }
-}
-
-export default connect(mapState, mapDispatch)(CategorySelector)
+export default connect(mapState)(CategorySelector)

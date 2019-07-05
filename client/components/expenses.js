@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {TransactionsHeader, Transactions} from '../components'
-
+import {TransactionsHeader, Transactions, SpendOverTime} from '../components'
 
 /**
  * COMPONENT
@@ -11,8 +10,12 @@ class Expenses extends React.Component {
   render() {
     return (
       <div>
+        <SpendOverTime
+          transactions={[{x: 2, y: 6}, {x: 6, y: 10}]}
+          categories={this.props.categories}
+        />
         <TransactionsHeader />
-        <Transactions transactions={this.props.transactions} categorized={true} />
+        <Transactions categorized={true} />
       </div>
     )
   }
@@ -20,9 +23,8 @@ class Expenses extends React.Component {
 
 const mapState = state => {
   return {
-    transactions: state.transactions.filter(transaction => transaction.categoryId !== null)
+    categories: state.categories
   }
 }
-
 
 export default connect(mapState)(Expenses)

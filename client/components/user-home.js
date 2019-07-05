@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {Layout} from 'react-toolbox/lib/layout'
 import {Transactions} from '../components'
 
-
 /**
  * COMPONENT
  */
@@ -15,7 +14,9 @@ class UserHome extends React.Component {
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <Transactions transactions={this.props.transactions} categorized={false} />
+        <Transactions
+          categorized={false}
+        />
       </div>
     )
   }
@@ -27,10 +28,8 @@ class UserHome extends React.Component {
 const mapState = state => {
   return {
     email: state.user.email,
-    transactions: state.transactions.filter(transaction => transaction.categoryId === null)
   }
 }
-
 
 export default connect(mapState)(UserHome)
 
@@ -38,6 +37,5 @@ export default connect(mapState)(UserHome)
 //  * PROP TYPES
 //  */
 UserHome.propTypes = {
-  email: PropTypes.string,
+  email: PropTypes.string
 }
-
