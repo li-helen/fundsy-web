@@ -78,35 +78,43 @@ export default class SpendOverTime extends React.Component {
 
   render() {
     const {data} = this.state
-    console.log('DATA: ', data)
+    const tickCount = Object.keys(data).length ? Math.max(...Object.keys(data).map(catId => data[catId].totalsByMonth.length)) : 0
     return (
       <div>
-        {Object.keys(data).length &&
-          this.props.categories.map(category => (
-            <Checkbox
-              key={category.id}
-              checked={data[category.id].selected}
-              label={category.label}
-              onChange={() => this.handleChange(category.id)}
-            />
-          ))}
-
-        <VictoryChart
-          containerComponent={<VictoryContainer responsive={false} />}
-        >
-          {Object.keys(data).map(categoryId => {
-            if (data[categoryId].selected) {
-              return (
-                <VictoryLine
-                  key={categoryId}
-                  data={data[categoryId].totalsByMonth}
-                  x="month"
-                  y="total"
-                />
-              )
-            }
-          })}
-        </VictoryChart>
+        {Object.keys(data).length && (
+          <div>
+            {this.props.categories.map(category => (
+              <Checkbox
+                key={category.id}
+                checked={data[category.id].selected}
+                label={category.label}
+                onChange={() => this.handleChange(category.id)}
+              />
+            ))}
+            <VictoryChart
+              containerComponent={<VictoryContainer responsive={false} />}
+            >
+              <VictoryAxis
+                standalone={false}
+                tickCount={tickCount}
+                tickFormat={(t) => Math.floor(t)}
+              />
+              <VictoryAxis dependentAxis standalone={false} />
+              {Object.keys(data).map(categoryId => {
+                if (data[categoryId].selected) {
+                  return (
+                    <VictoryLine
+                      key={categoryId}
+                      data={data[categoryId].totalsByMonth}
+                      x="month"
+                      y="total"
+                    />
+                  )
+                }
+              })}
+            </VictoryChart>
+          </div>
+        )}
       </div>
     )
   }
