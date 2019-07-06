@@ -164,11 +164,3 @@ export default class SpendOverTime extends React.Component {
     )
   }
 }
-
-// const mapState = state => {
-//     return {
-//         userId: state.user.id
-//     }
-// }
-
-// export default connect(mapState)(SpendOverTime)
