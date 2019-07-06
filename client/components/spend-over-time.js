@@ -1,4 +1,5 @@
 import React from 'react'
+// import {connect} from 'react-redux'
 import Checkbox from 'react-toolbox/lib/checkbox'
 import {VictoryContainer, VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 import axios from 'axios'
@@ -8,6 +9,7 @@ export default class SpendOverTime extends React.Component {
   constructor() {
     super()
     this.state = {
+      userCategories: [],
       data: {}
     }
   }
@@ -31,20 +33,30 @@ export default class SpendOverTime extends React.Component {
     }))
   }
 
+  async componentDidMount() {
+    //get the user's categories
+    const {data} = await axios.post('/api/categories/get-categories', {
+      userId: this.props.userId
+    })
+    this.setState({userCategories: data})
+  }
+
   async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.categories !== this.props.categories) {
+    if (
+      !Object.keys(prevState.data).length &&
+      !prevState.userCategories.length
+    ) {
       //fetch all the transaction data by category
       const transactionsByCategory = await Promise.all(
-        this.props.categories.map(cat => {
+        this.state.userCategories.map(cat => {
           return axios.post('/api/transactions/spend-history', {
             categoryId: cat.id
           })
         })
       )
-
       const categoryTotals = transactionsByCategory.reduce(
         (finalState, transactions, idx) => {
-          const categoryId = this.props.categories[idx].id
+          const categoryId = this.state.userCategories[idx].id
 
           //get each month's total spend in each category
           const monthlyTotals = this.getCategoryMonthlySpend(transactions.data)
@@ -88,7 +100,7 @@ export default class SpendOverTime extends React.Component {
       <div>
         {Object.keys(data).length && (
           <div>
-            {this.props.categories.map(category => (
+            {this.state.userCategories.map(category => (
               <Checkbox
                 key={category.id}
                 checked={data[category.id].selected}
@@ -100,14 +112,19 @@ export default class SpendOverTime extends React.Component {
               containerComponent={<VictoryContainer responsive={false} />}
               style={{
                 parent: {
-                  border: "5px solid #ccc",
-                  marginLeft: "50px",
+                  border: '5px solid #ccc',
+                  marginLeft: '50px'
                 },
                 data: {
-                  fill: "#c43a31", fillOpacity: 0.6, stroke: "#c43a31", strokeWidth: 3
+                  fill: '#c43a31',
+                  fillOpacity: 0.6,
+                  stroke: '#c43a31',
+                  strokeWidth: 3
                 },
                 labels: {
-                  fontSize: 80, fill: "#c43a31", padding: 5
+                  fontSize: 80,
+                  fill: '#c43a31',
+                  padding: 5
                 }
               }}
             >
@@ -115,13 +132,17 @@ export default class SpendOverTime extends React.Component {
                 label="Month"
                 tickCount={monthlyTickCount}
                 offsetX={50}
-                tickFormat={t => moment().month(Math.floor(t)).format('MMM')}
+                tickFormat={t =>
+                  moment()
+                    .month(Math.floor(t))
+                    .format('MMM')
+                }
                 style={{tickLabels: {fontSize: 10, padding: 10}}}
               />
               <VictoryAxis
                 dependentAxis
                 offsetX={50}
-                tickFormat={(t) => `$${t}`}
+                tickFormat={t => `$${t}`}
                 style={{tickLabels: {fontSize: 10, padding: 10}}}
               />
               {Object.keys(data).map(categoryId => {
@@ -143,3 +164,11 @@ export default class SpendOverTime extends React.Component {
     )
   }
 }
+
+// const mapState = state => {
+//     return {
+//         userId: state.user.id
+//     }
+// }
+
+// export default connect(mapState)(SpendOverTime)

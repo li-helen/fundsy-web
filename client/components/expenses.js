@@ -10,9 +10,7 @@ class Expenses extends React.Component {
   render() {
     return (
       <div>
-        <SpendOverTime
-          categories={this.props.categories}
-        />
+        <SpendOverTime userId={this.props.userId}/>
         <TransactionsHeader />
         <Transactions categorized={true} />
       </div>
@@ -22,7 +20,7 @@ class Expenses extends React.Component {
 
 const mapState = state => {
   return {
-    categories: state.categories
+    userId: state.user.id
   }
 }
 
