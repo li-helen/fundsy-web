@@ -2,6 +2,7 @@ import React from 'react'
 import Checkbox from 'react-toolbox/lib/checkbox'
 import {VictoryContainer, VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 import axios from 'axios'
+import moment from 'moment'
 
 export default class SpendOverTime extends React.Component {
   constructor() {
@@ -78,7 +79,11 @@ export default class SpendOverTime extends React.Component {
 
   render() {
     const {data} = this.state
-    const tickCount = Object.keys(data).length ? Math.max(...Object.keys(data).map(catId => data[catId].totalsByMonth.length)) : 0
+    const monthlyTickCount = Object.keys(data).length
+      ? Math.max(
+          ...Object.keys(data).map(catId => data[catId].totalsByMonth.length)
+        )
+      : 0
     return (
       <div>
         {Object.keys(data).length && (
@@ -93,13 +98,32 @@ export default class SpendOverTime extends React.Component {
             ))}
             <VictoryChart
               containerComponent={<VictoryContainer responsive={false} />}
+              style={{
+                parent: {
+                  border: "5px solid #ccc",
+                  marginLeft: "50px",
+                },
+                data: {
+                  fill: "#c43a31", fillOpacity: 0.6, stroke: "#c43a31", strokeWidth: 3
+                },
+                labels: {
+                  fontSize: 80, fill: "#c43a31", padding: 5
+                }
+              }}
             >
               <VictoryAxis
-                standalone={false}
-                tickCount={tickCount}
-                tickFormat={(t) => Math.floor(t)}
+                label="Month"
+                tickCount={monthlyTickCount}
+                offsetX={50}
+                tickFormat={t => moment().month(Math.floor(t)).format('MMM')}
+                style={{tickLabels: {fontSize: 10, padding: 10}}}
               />
-              <VictoryAxis dependentAxis standalone={false} />
+              <VictoryAxis
+                dependentAxis
+                offsetX={50}
+                tickFormat={(t) => `$${t}`}
+                style={{tickLabels: {fontSize: 10, padding: 10}}}
+              />
               {Object.keys(data).map(categoryId => {
                 if (data[categoryId].selected) {
                   return (
