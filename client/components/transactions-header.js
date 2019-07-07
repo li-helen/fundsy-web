@@ -5,7 +5,7 @@ const TransactionsHeader = () => {
     return (
         <div>
             <h2>Expenses</h2>
-            <Button label="Edit categories" />
+            <Button label="Edit categories"/>
             <Button label="Add an expense" />
         </div>
     )
