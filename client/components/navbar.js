@@ -3,30 +3,32 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {AppBar} from 'react-toolbox/lib/app_bar'
+import Navigation from 'react-toolbox/lib/navigation';
+
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>Fundsy</h1>
-    <nav>
+    <AppBar title="Fundsy">
       {isLoggedIn ? (
-        <div>
+        <Navigation type="horizontal">
           {/* The navbar will show these links after you log in */}
           <Link to="/">Home</Link>
-          <Link to="/expenses">Expenses</Link>
-          <Link to="link-account">Link Your Account</Link>
+          <Link to="/expenses" >Expenses</Link>
+          <Link to="/link-account">Link Your Account</Link>
           <Link to="/account-settings">Account Settings</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
-        </div>
+        </Navigation>
       ) : (
-        <div>
+        <Navigation type="horizontal">
           {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-        </div>
+        </Navigation>
       )}
-    </nav>
+    </AppBar>
     <hr />
   </div>
 )
