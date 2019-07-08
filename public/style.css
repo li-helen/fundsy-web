@@ -1,4 +1,13 @@
+html {
+  height: 100%;
+}
 body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  /* margin: 0;
+  padding: 0; */
   font-family: sans-serif;
 }
 
@@ -18,4 +27,30 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#app {
+  flex-grow: 1
+}
+
+.containerDiv {
+  height: 100%;
+  width: 100%
+}
+
+.paginateArrowsContainer {
+  display: flex;
+  justify-content: space-between
+}
+
+.arrowForward {
+  margin-right: 10%
+}
+
+.arrowBack {
+  margin-left: 10%
+}
+
+.bottomArrow {
+  margin-top: 2%
 }

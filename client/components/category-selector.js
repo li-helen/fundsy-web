@@ -29,7 +29,7 @@ class CategorySelector extends React.Component {
     return (
       <div>
         {categories.length &&
-        <div>
+        <div style={selectorStyle}>
         <Dropdown
           key={this.state.dropdownKey}
           label={
@@ -65,3 +65,10 @@ const mapState = state => {
 }
 
 export default connect(mapState)(CategorySelector)
+
+
+const selectorStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between'
+}

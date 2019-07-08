@@ -12,7 +12,7 @@ class UserHome extends React.Component {
   render() {
     const {email} = this.props
     return (
-      <div>
+      <div className="containerDiv">
         <h3>Welcome, {email}</h3>
         <Transactions
           categorized={false}

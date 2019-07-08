@@ -47,7 +47,15 @@ class Transactions extends Component {
   render() {
     return (
       <div>
-        <Table style={{margin: 50}} selectable={false}>
+        <div className="paginateArrowsContainer">
+          <FontIcon className="arrowBack" onClick={() => this.getPage(this.state.page - 1)}>
+            arrow_back
+          </FontIcon>
+          <FontIcon className="arrowForward" onClick={() => this.getPage(this.state.page + 1)}>
+            arrow_forward
+          </FontIcon>
+        </div>
+        <Table selectable={false}>
           <TableHead>
             <TableCell>Date</TableCell>
             <TableCell>Account</TableCell>
@@ -87,13 +95,14 @@ class Transactions extends Component {
               )
             })}
         </Table>
-
-        <FontIcon onClick={() => this.getPage(this.state.page - 1)}>
-          arrow_back
-        </FontIcon>
-        <FontIcon onClick={() => this.getPage(this.state.page + 1)}>
-          arrow_forward
-        </FontIcon>
+        <div className="paginateArrowsContainer">
+          <FontIcon className="arrowBack bottomArrow" onClick={() => this.getPage(this.state.page - 1)}>
+            arrow_back
+          </FontIcon>
+          <FontIcon className="arrowForward bottomArrow" onClick={() => this.getPage(this.state.page + 1)}>
+            arrow_forward
+          </FontIcon>
+        </div>
       </div>
     )
   }
