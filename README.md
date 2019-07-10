@@ -3,10 +3,14 @@
 _Personal budgeting app_
 
 ## Setup
-* Run the following commands:
 
 ```
 npm install
 npm run start-dev
 ```
+Start by signing up as a user. Once you're logged in, navigate to "Account Settings" to link a bank account to your Fundsy account.
 
+Click on the button that says "Link an account!" and enter the following credentials (since we're in sandbox mode - do NOT enter your real account info here):
+
+Username: user_good
+Password: pass_good
