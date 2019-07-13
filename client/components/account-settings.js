@@ -21,22 +21,11 @@ class SetCategories extends React.Component {
       return accum
     }, [])
     this.setState({userCategories})
-    // const userCategories = data.reduce((accum, elem) => {
-    //   accum[elem.id] = elem.label
-    //   return accum
-    // }, {})
-
-    // this.setState(state => ({
-    //   remainingCategoriesCount:
-    //     state.remainingCategoriesCount - Object.keys(userCategories).length,
-    //   userCategories,
-    //   retreivedCategories: true
-    // }))
   }
 
   editLabel = id => {
     this.setState(state => ({
-      userCategories: state.userCategories.map((cat, idx) => {
+      userCategories: state.userCategories.map(cat => {
         if (id === cat.id) cat.editing = true
         return cat
       })
@@ -60,42 +49,27 @@ class SetCategories extends React.Component {
     this.setState({userCategories, addingNewCategory: false})
   }
 
-  // handleChange = catId => {
-  //   this.setState(state => ({
-  //     userCategories: {...state.userCategories, [catId]: event.target.value}
-  //   }))
-  // }
-
   handleChange = id => {
     this.setState(state => ({
-      userCategories: state.userCategories.map((cat, idx) => {
+      userCategories: state.userCategories.map(cat => {
         if (id === cat.id) cat.label = event.target.value
         return cat
       })
     }))
   }
 
-  showExistingCategories() {
-    return Object.keys(this.state.userCategories).map(catId => (
-      <Input
-        key={catId}
-        type="text"
-        value={this.state.userCategories[catId]}
-        onChange={() => this.handleChange(catId)}
-      />
-    ))
-  }
-
   addCategory = () => {
-    if (!this.state.addingNewCategory) {
+    if (!this.state.addingNewCategory && this.state.userCategories.length < 5) {
       const newCategory = {id: null, label: '', editing: true}
-      this.setState(state => ({userCategories: [...state.userCategories, newCategory], addingNewCategory: true}))
+      this.setState(state => ({
+        userCategories: [...state.userCategories, newCategory],
+        addingNewCategory: true
+      }))
     }
   }
 
   render() {
     const {userCategories} = this.state
-    console.log(userCategories)
     return (
       <div>
         <h3>My Accounts</h3>
@@ -103,10 +77,7 @@ class SetCategories extends React.Component {
         <h3>My Budget</h3>
         <h5>Add up to 5 categories.</h5>
         <Button onClick={this.addCategory}>Add a category</Button>
-        {/* {Object.keys(this.state.userCategories).length &&
-          this.showExistingCategories()}
 
-        {this.state.retreivedCategories && this.renderEmptyInput()} */}
         {userCategories.length &&
           userCategories.map((cat, idx) => {
             return cat.editing ? (
@@ -116,12 +87,16 @@ class SetCategories extends React.Component {
                   value={userCategories[idx].label}
                   onChange={() => this.handleChange(cat.id)}
                 />
-                <Button onClick={() => this.setLabel(cat.id, cat.label)}>Set Category Label</Button>
+                <Button onClick={() => this.setLabel(cat.id, cat.label)}>
+                  Set Category Label
+                </Button>
               </div>
             ) : (
               <div key={cat.id}>
                 <h4>{cat.label}</h4>
-                <Button onClick={() => this.editLabel(cat.id)}>Edit Category Label</Button>
+                <Button onClick={() => this.editLabel(cat.id)}>
+                  Edit Category Label
+                </Button>
               </div>
             )
           })}
