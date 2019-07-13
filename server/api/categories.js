@@ -2,12 +2,13 @@ const router = require('express').Router()
 const {Category, User} = require('../db/models')
 module.exports = router
 
-router.post('/get-categories', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
     try {
         const categories = await Category.findAll({
             where: {
-                userId: req.body.userId
-            }
+                userId: req.params.userId
+            },
+            order: [['id', 'ASC']]
         })
 
         res.send(categories)
@@ -16,9 +17,10 @@ router.post('/get-categories', async (req, res, next) => {
     }
 })
 
-router.post('/add-category', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const {userId, label} = req.body
+        
         const newCat = await Category.create({label})
         const user = await User.findOne({
             where: {

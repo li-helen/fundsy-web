@@ -11,7 +11,8 @@ import './socket'
 
 const contextTheme = {
   RTButton: require('./styles/button.css'),
-  RTTable: require('./styles/table.css')
+  RTTable: require('./styles/table.css'),
+  RTInput: require('./styles/input.css')
 };
 
 ReactDOM.render(

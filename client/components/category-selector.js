@@ -70,5 +70,5 @@ export default connect(mapState)(CategorySelector)
 const selectorStyle = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-around'
 }

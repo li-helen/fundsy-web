@@ -14,7 +14,7 @@ class Routes extends Component {
   }
   componentDidUpdate(prevProps) {
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
-      this.props.fetchCategories(this.props.userId)
+      // this.props.fetchCategories(this.props.userId)
     }
   }
 
@@ -29,7 +29,6 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/link-account" component={LinkAccount} />
             <Route path="/expenses" component={Expenses} />
             <Route path="/account-settings" component={AccountSettings} />
             <Route path="/" component={UserHome} />

@@ -35,9 +35,7 @@ export default class SpendOverTime extends React.Component {
 
   async componentDidMount() {
     //get the user's categories
-    const {data} = await axios.post('/api/categories/get-categories', {
-      userId: this.props.userId
-    })
+    const {data} = await axios.get(`/api/categories/${this.props.userId}`)
     this.setState({userCategories: data})
   }
 
