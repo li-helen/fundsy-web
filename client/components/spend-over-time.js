@@ -1,5 +1,5 @@
 import React from 'react'
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 import Checkbox from 'react-toolbox/lib/checkbox'
 import {VictoryContainer, VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 import axios from 'axios'
@@ -33,46 +33,44 @@ export default class SpendOverTime extends React.Component {
     }))
   }
 
+  // async componentDidMount() {
+  //   //get the user's categories
+  //   const {data} = await axios.get(`/api/categories/${this.props.userId}`)
+  //   this.setState({userCategories: data})
+  // }
+
   async componentDidMount() {
-    //get the user's categories
-    const {data} = await axios.get(`/api/categories/${this.props.userId}`)
-    this.setState({userCategories: data})
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    if (
-      !Object.keys(prevState.data).length &&
-      !prevState.userCategories.length
-    ) {
-      //fetch all the transaction data by category
-      const transactionsByCategory = await Promise.all(
-        this.state.userCategories.map(cat => {
-          return axios.post('/api/transactions/spend-history', {
-            categoryId: cat.id
-          })
+    // if (prevProps.categories !== this.props.categories) {
+    console.log('SPEND OVER TIME MOUNTED!')
+    //fetch all the transaction data by category
+    const transactionsByCategory = await Promise.all(
+      this.state.userCategories.map(cat => {
+        return axios.post('/api/transactions/spend-history', {
+          categoryId: cat.id
         })
-      )
-      const categoryTotals = transactionsByCategory.reduce(
-        (finalState, transactions, idx) => {
-          const categoryId = this.state.userCategories[idx].id
+      })
+    )
+    const categoryTotals = transactionsByCategory.reduce(
+      (finalState, transactions, idx) => {
+        const categoryId = this.state.userCategories[idx].id
 
-          //get each month's total spend in each category
-          const monthlyTotals = this.getCategoryMonthlySpend(transactions.data)
+        //get each month's total spend in each category
+        const monthlyTotals = this.getCategoryMonthlySpend(transactions.data)
 
-          //adjust formatting for Victory
-          const formattedData = this.formatData(monthlyTotals)
+        //adjust formatting for Victory
+        const formattedData = this.formatData(monthlyTotals)
 
-          finalState[categoryId] = {
-            selected: true,
-            totalsByMonth: formattedData
-          }
+        finalState[categoryId] = {
+          selected: true,
+          totalsByMonth: formattedData
+        }
 
-          return finalState
-        },
-        {}
-      )
-      this.setState({data: categoryTotals})
-    }
+        return finalState
+      },
+      {}
+    )
+    this.setState({data: categoryTotals})
+    // }
   }
 
   handleChange = categoryId => {
@@ -96,7 +94,7 @@ export default class SpendOverTime extends React.Component {
       : 0
     return (
       <div>
-        {Object.keys(data).length && (
+        {Object.keys(data).length ? (
           <div>
             {this.state.userCategories.map(category => (
               <Checkbox
@@ -157,8 +155,17 @@ export default class SpendOverTime extends React.Component {
               })}
             </VictoryChart>
           </div>
+        ) : (
+          <div />
         )}
       </div>
     )
   }
 }
+// const mapState = state => {
+//   return {
+//     categories: state.categories
+//   }
+// }
+
+// export default connect(mapState)(SpendOverTime)

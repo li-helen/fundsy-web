@@ -8,11 +8,23 @@ import {TransactionsHeader, Transactions, SpendOverTime} from '../components'
 
 class Expenses extends React.Component {
   render() {
+    console.log('EXPENSES RENDERING! with props: ', this.props)
     return (
       <div>
-        <SpendOverTime userId={this.props.userId}/>
-        <TransactionsHeader />
-        <Transactions categorized={true} />
+        {this.props.categories.length ? (
+          <div>
+            <SpendOverTime
+              userId={this.props.userId}
+              categories={this.props.categories}
+            />
+            <TransactionsHeader />
+            <Transactions categorized={true} view="expenses" />
+          </div>
+        ) : (
+          <div>
+            Start by categorizing your expenses to see your spending over time.
+          </div>
+        )}
       </div>
     )
   }
@@ -20,7 +32,8 @@ class Expenses extends React.Component {
 
 const mapState = state => {
   return {
-    userId: state.user.id
+    userId: state.user.id,
+    categories: state.categories
   }
 }
 

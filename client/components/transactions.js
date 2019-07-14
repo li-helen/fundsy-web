@@ -45,64 +45,85 @@ class Transactions extends Component {
   }
 
   render() {
+    console.log('transactions passed into props: ', this.state.transactions)
     return (
       <div>
-        <div className="paginateArrowsContainer">
-          <FontIcon className="arrowBack" onClick={() => this.getPage(this.state.page - 1)}>
-            arrow_back
-          </FontIcon>
-          <FontIcon className="arrowForward" onClick={() => this.getPage(this.state.page + 1)}>
-            arrow_forward
-          </FontIcon>
-        </div>
-        <Table selectable={false}>
-          <TableHead>
-            <TableCell>Date</TableCell>
-            <TableCell>Account</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Category</TableCell>
-          </TableHead>
+        {this.props.view === 'expenses' && !this.state.transactions.length ? (
+          <div>
+            Start by creating a new category or categorizing your expenses.
+          </div>
+        ) : (
+          <div>
+            <div className="paginateArrowsContainer">
+              <FontIcon
+                className="arrowBack"
+                onClick={() => this.getPage(this.state.page - 1)}
+              >
+                arrow_back
+              </FontIcon>
+              <FontIcon
+                className="arrowForward"
+                onClick={() => this.getPage(this.state.page + 1)}
+              >
+                arrow_forward
+              </FontIcon>
+            </div>
+            <Table selectable={false}>
+              <TableHead>
+                <TableCell>Date</TableCell>
+                <TableCell>Account</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Category</TableCell>
+              </TableHead>
 
-          {this.state.transactions.length &&
-            this.state.transactions.map(transaction => {
-              return (
-                <TableRow key={transaction.id}>
-                  <TableCell>
-                    <div>{transaction.date}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div>{transaction.account}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div>{transaction.description}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div>{transaction.amount}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div>
-                      {
-                        <CategorySelector
-                          transactionId={transaction.id}
-                          categoryId={transaction.categoryId}
-                          setCategory={this.setCategory}
-                        />
-                      }
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-        </Table>
-        <div className="paginateArrowsContainer">
-          <FontIcon className="arrowBack bottomArrow" onClick={() => this.getPage(this.state.page - 1)}>
-            arrow_back
-          </FontIcon>
-          <FontIcon className="arrowForward bottomArrow" onClick={() => this.getPage(this.state.page + 1)}>
-            arrow_forward
-          </FontIcon>
-        </div>
+              {this.state.transactions.length &&
+                this.state.transactions.map(transaction => {
+                  return (
+                    <TableRow key={transaction.id}>
+                      <TableCell>
+                        <div>{transaction.date}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div>{transaction.account}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div>{transaction.description}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div>{transaction.amount}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          {
+                            <CategorySelector
+                              transactionId={transaction.id}
+                              categoryId={transaction.categoryId}
+                              setCategory={this.setCategory}
+                            />
+                          }
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+            </Table>
+            <div className="paginateArrowsContainer">
+              <FontIcon
+                className="arrowBack bottomArrow"
+                onClick={() => this.getPage(this.state.page - 1)}
+              >
+                arrow_back
+              </FontIcon>
+              <FontIcon
+                className="arrowForward bottomArrow"
+                onClick={() => this.getPage(this.state.page + 1)}
+              >
+                arrow_forward
+              </FontIcon>
+            </div>
+          </div>
+        )}
       </div>
     )
   }

@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, LinkAccount, Expenses, AccountSettings} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  LinkAccount,
+  Expenses,
+  AccountSettings
+} from './components'
 import {me, fetchCategories} from './store'
 
 /**
@@ -14,7 +21,7 @@ class Routes extends Component {
   }
   componentDidUpdate(prevProps) {
     if (!prevProps.userId && prevProps.userId !== this.props.userId) {
-      // this.props.fetchCategories(this.props.userId)
+      this.props.fetchCategories(this.props.userId)
     }
   }
 
@@ -25,7 +32,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-       
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -49,17 +56,16 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id,
-    userId: state.user.id,
+    userId: state.user.id
   }
 }
-
 
 const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
     },
-    fetchCategories: (userId) => dispatch(fetchCategories(userId))
+    fetchCategories: userId => dispatch(fetchCategories(userId))
   }
 }
 
