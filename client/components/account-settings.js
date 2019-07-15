@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import axios from 'axios'
-import {Input} from 'react-toolbox/lib/input'
 import {Button} from 'react-toolbox/lib/button'
-import {LinkAccount} from '../components'
+import {LinkAccount, CategoriesForm} from '../components'
+import {addNewCategory, updateCategory} from '../store'
 
 class SetCategories extends React.Component {
   constructor() {
@@ -14,13 +13,20 @@ class SetCategories extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    const {data} = await axios.get(`/api/categories/${this.props.userId}`)
-    const userCategories = data.reduce((accum, elem) => {
-      accum.push({id: elem.id, label: elem.label, editing: false})
-      return accum
-    }, [])
-    this.setState({userCategories})
+  componentDidMount() {
+    this.setState({userCategories: this.props.categories})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.categories !== this.props.categories) {
+      this.setState({userCategories: this.props.categories})
+    }
+  }
+
+  componentWillUnmount() {
+    this.state.userCategories.forEach(cat => {
+      cat.editing = false
+    })
   }
 
   editLabel = id => {
@@ -32,21 +38,16 @@ class SetCategories extends React.Component {
     }))
   }
 
-  setLabel = async (id, label) => {
+  setLabel = (id, label) => {
     if (id) {
       //we're updating an existing category
-      await axios.put('/api/categories', {id, label})
+      this.props.updateCategory(id, label)
     } else {
       //we're creating a new category
-      await axios.post('/api/categories', {userId: this.props.userId, label})
+      this.props.addCategory(this.props.userId, label)
     }
-    const {data} = await axios.get(`/api/categories/${this.props.userId}`)
 
-    const userCategories = data.reduce((accum, elem) => {
-      accum.push({id: elem.id, label: elem.label, editing: false})
-      return accum
-    }, [])
-    this.setState({userCategories, addingNewCategory: false})
+    this.setState({addingNewCategory: false})
   }
 
   handleChange = id => {
@@ -58,7 +59,8 @@ class SetCategories extends React.Component {
     }))
   }
 
-  addCategory = () => {
+  startNewCategory = () => {
+    //only allow users to add one category at a time
     if (!this.state.addingNewCategory && this.state.userCategories.length < 5) {
       const newCategory = {id: null, label: '', editing: true}
       this.setState(state => ({
@@ -69,37 +71,23 @@ class SetCategories extends React.Component {
   }
 
   render() {
-    const {userCategories} = this.state
     return (
       <div>
         <h3>My Accounts</h3>
         <LinkAccount />
         <h3>My Budget</h3>
         <h5>Add up to 5 categories.</h5>
-        <Button onClick={this.addCategory}>Add a category</Button>
-
-        {userCategories.length &&
-          userCategories.map((cat, idx) => {
-            return cat.editing ? (
-              <div key={cat.id}>
-                <Input
-                  type="text"
-                  value={userCategories[idx].label}
-                  onChange={() => this.handleChange(cat.id)}
-                />
-                <Button onClick={() => this.setLabel(cat.id, cat.label)}>
-                  Set Category Label
-                </Button>
-              </div>
-            ) : (
-              <div key={cat.id}>
-                <h4>{cat.label}</h4>
-                <Button onClick={() => this.editLabel(cat.id)}>
-                  Edit Category Label
-                </Button>
-              </div>
-            )
-          })}
+        <Button onClick={this.startNewCategory}>Add a category</Button>
+        {this.state.userCategories.length ? (
+          <CategoriesForm
+            userCategories={this.state.userCategories}
+            handleChange={this.handleChange}
+            setLabel={this.setLabel}
+            editLabel={this.editLabel}
+          />
+        ) : (
+          <div>No categories added yet!</div>
+        )}
       </div>
     )
   }
@@ -107,8 +95,16 @@ class SetCategories extends React.Component {
 
 const mapState = state => {
   return {
-    userId: state.user.id
+    userId: state.user.id,
+    categories: state.categories
   }
 }
 
-export default connect(mapState)(SetCategories)
+const mapDispatch = dispatch => {
+  return {
+    addCategory: (userId, label) => dispatch(addNewCategory(userId, label)),
+    updateCategory: (id, label) => dispatch(updateCategory(id, label))
+  }
+}
+
+export default connect(mapState, mapDispatch)(SetCategories)
