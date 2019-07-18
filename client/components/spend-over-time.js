@@ -1,5 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import Checkbox from 'react-toolbox/lib/checkbox'
 import {VictoryContainer, VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 import axios from 'axios'
@@ -33,15 +32,7 @@ export default class SpendOverTime extends React.Component {
     }))
   }
 
-  // async componentDidMount() {
-  //   //get the user's categories
-  //   const {data} = await axios.get(`/api/categories/${this.props.userId}`)
-  //   this.setState({userCategories: data})
-  // }
-
   async componentDidMount() {
-    // if (prevProps.categories !== this.props.categories) {
-    console.log('SPEND OVER TIME MOUNTED!')
     //fetch all the transaction data by category
     const transactionsByCategory = await Promise.all(
       this.state.userCategories.map(cat => {
@@ -162,10 +153,3 @@ export default class SpendOverTime extends React.Component {
     )
   }
 }
-// const mapState = state => {
-//   return {
-//     categories: state.categories
-//   }
-// }
-
-// export default connect(mapState)(SpendOverTime)

@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Button} from 'react-toolbox/lib/button'
 import {LinkAccount, CategoriesForm} from '../components'
-import {addNewCategory, updateCategory} from '../store'
+import {addNewCategory, updateCategory, deleteCategory} from '../store'
 
 class SetCategories extends React.Component {
   constructor() {
@@ -50,6 +50,10 @@ class SetCategories extends React.Component {
     this.setState({addingNewCategory: false})
   }
 
+  deleteLabel = categoryId => {
+    this.props.deleteCategory(categoryId)
+  }
+
   handleChange = id => {
     this.setState(state => ({
       userCategories: state.userCategories.map(cat => {
@@ -75,19 +79,24 @@ class SetCategories extends React.Component {
       <div>
         <h3>My Accounts</h3>
         <LinkAccount />
-        <h3>My Budget</h3>
-        <h5>Add up to 5 categories.</h5>
-        <Button onClick={this.startNewCategory}>Add a category</Button>
-        {this.state.userCategories.length ? (
-          <CategoriesForm
-            userCategories={this.state.userCategories}
-            handleChange={this.handleChange}
-            setLabel={this.setLabel}
-            editLabel={this.editLabel}
-          />
-        ) : (
-          <div>No categories added yet!</div>
-        )}
+        <div id="accountSettingsCategories">
+          <h3>My Budget</h3>
+          <div id="addCategoryContainer">
+            <h5>Add up to 5 categories.</h5>
+            <Button onClick={this.startNewCategory}>Add a category</Button>
+          </div>
+          {this.state.userCategories.length ? (
+            <CategoriesForm
+              userCategories={this.state.userCategories}
+              handleChange={this.handleChange}
+              setLabel={this.setLabel}
+              editLabel={this.editLabel}
+              deleteLabel={this.deleteLabel}
+            />
+          ) : (
+            <div>No categories added yet!</div>
+          )}
+        </div>
       </div>
     )
   }
@@ -103,7 +112,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     addCategory: (userId, label) => dispatch(addNewCategory(userId, label)),
-    updateCategory: (id, label) => dispatch(updateCategory(id, label))
+    updateCategory: (id, label) => dispatch(updateCategory(id, label)),
+    deleteCategory: categoryId => dispatch(deleteCategory(categoryId))
   }
 }
 

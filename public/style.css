@@ -8,7 +8,7 @@ body {
   width: 100%;
   /* margin: 0;
   padding: 0; */
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -30,27 +30,48 @@ form div {
 }
 
 #app {
-  flex-grow: 1
+  flex-grow: 1;
+}
+
+.mainDiv {
+  height: 100%;
+  width: 100%;
 }
 
 .containerDiv {
   height: 100%;
-  width: 100%
+  width: 100%;
 }
 
 .paginateArrowsContainer {
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .arrowForward {
-  margin-right: 10%
+  margin-right: 10%;
 }
 
 .arrowBack {
-  margin-left: 10%
+  margin-left: 10%;
 }
 
 .bottomArrow {
-  margin-top: 2%
+  margin-top: 2%;
+}
+
+#accountSettingsCategories {
+  width: 40%;
+}
+
+#addCategoryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoriesListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

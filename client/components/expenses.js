@@ -8,16 +8,15 @@ import {TransactionsHeader, Transactions, SpendOverTime} from '../components'
 
 class Expenses extends React.Component {
   render() {
-    console.log('EXPENSES RENDERING! with props: ', this.props)
     return (
-      <div>
+      <div className="containerDiv">
         {this.props.categories.length ? (
           <div>
             <SpendOverTime
               userId={this.props.userId}
               categories={this.props.categories}
             />
-            <TransactionsHeader />
+            <TransactionsHeader history={this.props.history} />
             <Transactions categorized={true} view="expenses" />
           </div>
         ) : (

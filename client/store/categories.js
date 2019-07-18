@@ -6,6 +6,7 @@ import axios from 'axios'
 const GET_CATEGORIES = 'GET_CATEGORIES'
 const ADD_CATEGORY = 'ADD_CATEGORY'
 const EDIT_CATEGORY = 'EDIT_CATEGORY'
+const DELETE_CATEGORY = 'DELETE_CATEGORY'
 
 /**
  * INITIAL STATE
@@ -19,19 +20,10 @@ const initialCategories = []
 const getCategories = categories => ({type: GET_CATEGORIES, categories})
 const addCategory = category => ({type: ADD_CATEGORY, category})
 const editCategory = category => ({type: EDIT_CATEGORY, category})
-
+const removeCategory = categoryId => ({type: DELETE_CATEGORY, categoryId})
 /**
  * THUNK CREATORS
  */
-
-export const addNewCategory = (userId, label) => async dispatch => {
-  try {
-    const {data} = await axios.post('/api/categories', {userId, label})
-    dispatch(addCategory(data))
-  } catch (err) {
-    console.log(err)
-  }
-}
 
 export const fetchCategories = userId => async dispatch => {
   try {
@@ -42,10 +34,29 @@ export const fetchCategories = userId => async dispatch => {
   }
 }
 
+export const addNewCategory = (userId, label) => async dispatch => {
+  try {
+    const {data} = await axios.post('/api/categories', {userId, label})
+    dispatch(addCategory(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const updateCategory = (id, label) => async dispatch => {
   try {
     const {data} = await axios.put('/api/categories', {id, label})
     dispatch(editCategory(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const deleteCategory = categoryId => async dispatch => {
+  try {
+    console.log('categoryId in thunk: ', categoryId)
+    await axios.delete(`/api/categories/${categoryId}`)
+    dispatch(removeCategory(categoryId))
   } catch (err) {
     console.log(err)
   }
@@ -72,6 +83,11 @@ export default function(state = initialCategories, action) {
           cat.editing = false
         }
         return cat
+      })
+    }
+    case DELETE_CATEGORY: {
+      return state.filter(cat => {
+        return cat.id !== action.categoryId
       })
     }
     default:

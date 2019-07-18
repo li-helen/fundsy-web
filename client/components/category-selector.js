@@ -31,29 +31,27 @@ class CategorySelector extends React.Component {
     const {selectedCategory} = this.state
     return (
       <div>
-        {categories.length && (
-          <div style={selectorStyle}>
-            <Dropdown
-              key={this.state.dropdownKey}
-              label={
-                categoryId !== null
-                  ? categories.filter(cat => cat.id === categoryId)[0].label
-                  : 'Assign a category'
-              }
-              auto={false}
-              source={categories}
-              onChange={this.handleChange}
-              value={selectedCategory}
-            />
-            <Button
-              onClick={() =>
-                this.props.setCategory(transactionId, selectedCategory)
-              }
-            >
-              Set category
-            </Button>
-          </div>
-        )}
+        <div style={selectorStyle}>
+          <Dropdown
+            key={this.state.dropdownKey}
+            label={
+              categoryId !== null
+                ? categories.filter(cat => cat.id === categoryId)[0].label
+                : 'Assign a category'
+            }
+            auto={false}
+            source={categories}
+            onChange={this.handleChange}
+            value={selectedCategory}
+          />
+          <Button
+            onClick={() =>
+              this.props.setCategory(transactionId, selectedCategory)
+            }
+          >
+            Set category
+          </Button>
+        </div>
       </div>
     )
   }

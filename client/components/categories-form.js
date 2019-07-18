@@ -1,16 +1,23 @@
 import React from 'react'
 import {Input} from 'react-toolbox/lib/input'
 import {Button} from 'react-toolbox/lib/button'
+import {FontIcon} from 'react-toolbox/lib/font_icon'
 
 export default class CategoriesForm extends React.Component {
   render() {
-    const {userCategories, handleChange, setLabel, editLabel} = this.props
+    const {
+      userCategories,
+      handleChange,
+      setLabel,
+      editLabel,
+      deleteLabel
+    } = this.props
     return (
       <div>
         {userCategories.length &&
           userCategories.map((cat, idx) => {
             return cat.editing ? (
-              <div key={cat.id}>
+              <div key={cat.id} className="categoriesListItem">
                 <Input
                   type="text"
                   value={userCategories[idx].label}
@@ -21,11 +28,14 @@ export default class CategoriesForm extends React.Component {
                 </Button>
               </div>
             ) : (
-              <div key={cat.id}>
+              <div key={cat.id} className="categoriesListItem">
                 <h4>{cat.label}</h4>
-                <Button onClick={() => editLabel(cat.id)}>
-                  Edit Category Label
-                </Button>
+                <div>
+                  <FontIcon onClick={() => editLabel(cat.id)}>edit</FontIcon>
+                  <FontIcon onClick={() => deleteLabel(cat.id)}>
+                    delete_outline
+                  </FontIcon>
+                </div>
               </div>
             )
           })}
