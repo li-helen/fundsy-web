@@ -54,7 +54,7 @@
     "pg": "^7.9.0",
     "pg-hstore": "^2.3.2",
     "plaid": "^3.1.2",
-    "postcss": "^7.0.16",
+    "postcss": "^7.0.36",
     "postcss-calc": "^7.0.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-each": "^0.10.0",
