@@ -74,7 +74,7 @@
     "redux-thunk": "^2.3.0",
     "sequelize": "^5.3.1",
     "socket.io": "^2.2.0",
-    "victory": "^32.3.0",
+    "victory": "^36.6.8",
     "webpack": "^4.32.2"
   },
   "devDependencies": {
